@@ -75,7 +75,11 @@ type
     MNotice,
     MPing,
     MPong,
-    MError
+    MError,
+    MAccount,     ## IRCv3 account-notify
+    MAway,        ## IRCv3 away-notify
+    MCap,         ## IRCv3 CAP command
+    MAuthenticate ## IRCv3 SASL AUTHENTICATE command
 
   TIrcEventType* = enum
     EvMsg, EvConnected, EvDisconnected, EvTimeout
@@ -245,6 +249,10 @@ proc parseMessage(msg: string): TIRCEvent =
     of "NICK": result.cmd = MNick
     of "NOTICE": result.cmd = MNotice
     of "ERROR": result.cmd = MError
+    of "ACCOUNT": result.cmd = MAccount
+    of "AWAY": result.cmd = MAway
+    of "CAP": result.cmd = MCap
+    of "AUTHENTICATE": result.cmd = MAuthenticate
     else: result.cmd = MUnknown
 
   # Don't skip space here. It is skipped in the following While loop.
